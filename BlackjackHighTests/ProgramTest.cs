@@ -8,7 +8,7 @@ namespace BlackjackHighTests
         {
             var blackjackType = typeof(BlackjackHigh.Blackjack);
             var method = blackjackType.GetMethod("BlackjackHighest", BindingFlags.NonPublic | BindingFlags.Static);
-            return (string)method.Invoke(null, new object[] { hand });
+            return (string)method.Invoke(null, [hand]);
         }
 
         [Theory]
@@ -28,7 +28,7 @@ namespace BlackjackHighTests
         [Fact]
         public void BlackjackHighest_InvalidCard_ThrowsArgumentException()
         {
-            var ex = Assert.Throws<TargetInvocationException>(() => InvokeBlackjackHighest(new string[] { "ten", "invalidcard" }));
+            var ex = Assert.Throws<TargetInvocationException>(() => InvokeBlackjackHighest(["ten", "invalidcard"]));
             Assert.IsType<ArgumentException>(ex.InnerException);
             Assert.Contains("invalid card in hand", ex.InnerException.Message);
         }
@@ -36,7 +36,7 @@ namespace BlackjackHighTests
         [Fact]
         public void BlackjackHighest_EmptyHand_ThrowsArgumentException()
         {
-            var ex = Assert.Throws<TargetInvocationException>(() => InvokeBlackjackHighest(new string[] { }));
+            var ex = Assert.Throws<TargetInvocationException>(() => InvokeBlackjackHighest([]));
             Assert.IsType<ArgumentException>(ex.InnerException);
             Assert.Contains("hand cannot be null or empty", ex.InnerException.Message);
         }

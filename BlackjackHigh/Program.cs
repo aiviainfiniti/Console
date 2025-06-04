@@ -16,10 +16,8 @@ namespace BlackjackHigh
             int total = 0;
             bool aceFound = false;
 
-            List<string> cards = new List<string> { "ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king" };
-            List<int> values = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
-            string[] cardsArr = ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king"];
-            int[] valuesArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+            List<string> cards = ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king"];
+            List<int> values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 
             foreach (string h in hand)
             {
