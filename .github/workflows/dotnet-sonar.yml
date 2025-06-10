@@ -1,0 +1,71 @@
+name: CI - Build, Test, and Analyze with SonarCloud
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build, Test & Sonar Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install SonarScanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: Install ReportGenerator
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+    - name: Restore solution
+      run: dotnet restore Console.sln
+
+    - name: Begin SonarCloud analysis
+      run: |
+        dotnet sonarscanner begin \
+          /k:"Console" \
+          /o:"aiviainfiniti" \
+          /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.host.url="https://sonarcloud.io" \
+          /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
+
+    - name: Build solution
+      run: dotnet build Console.sln --configuration Release --no-restore
+
+    - name: Run tests with coverage
+      run: >
+        dotnet test BlackjackHighTests/BlackjackHighTests.csproj
+        --no-build
+        --configuration Release
+        --collect:"XPlat Code Coverage"
+        --logger trx
+        --results-directory ./TestResults
+
+    - name: Convert coverage to SonarCloud format
+      run: |
+        reportgenerator \
+          -reports:"TestResults/**/coverage.cobertura.xml" \
+          -targetdir:"CoverageReport" \
+          -reporttypes:"HtmlInline_AzurePipelines;Cobertura" \
+          -filefilters:+BlackjackHigh*
+
+    - name: Copy Cobertura coverage file
+      run: cp TestResults/**/coverage.cobertura.xml coverage.opencover.xml
+
+    - name: End SonarCloud analysis
+      run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+    - name: Upload coverage report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: CoverageReport
