@@ -38,12 +38,7 @@ jobs:
 
     - name: Run tests with coverage
       run: >
-        dotnet test BlackjackHighTests/BlackjackHighTests.csproj
-        --no-build
-        --configuration Release
-        --collect:"XPlat Code Coverage"
-        --logger trx
-        --results-directory ./TestResults
+        dotnet test BlackjackHighTests/BlackjackHighTests.csproj --no-build --configuration Release --collect:"XPlat Code Coverage" --logger trx --results-directory ./TestResults
 
     - name: Convert coverage to SonarCloud format
       run: |
