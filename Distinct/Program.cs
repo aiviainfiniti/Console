@@ -34,6 +34,7 @@ namespace Distinct
         }
         static void Main(string[] args)
         {
+            
             List<int> list = new List<int> { 1, 2, 2, 2, 3, 5, 5, 6, 6, 7, 8, 9, 9 };
             int[] input = new int[] { 1, 2, 2, 2, 3, 5, 5, 6, 6, 7, 8, 9, 9 };
             Console.WriteLine(input.Length - DistinctList(input).Length);

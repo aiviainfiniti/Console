@@ -18,6 +18,9 @@ namespace BlackjackHighTests
         [InlineData(new string[] { "king", "four", "ten" }, "above king")]
         [InlineData(new string[] { "ten", "jack" }, "below jack")]
         [InlineData(new string[] { "ace", "queen" }, "blackjack ace")]
+        [InlineData(new string[] { "ace", "eight", "ace", "ace" }, "blackjack ace")]
+        [InlineData(new string[] { "ace", "eight", "king", "ace" }, "below king")]
+        [InlineData(new string[] { "ace", "eight", "king", "ace", "ace" }, "blackjack king")]
         [InlineData(new string[] { "five", "six" }, "below six")]
         public void BlackjackHighest_ValidHands_ReturnsExpected(string[] hand, string expected)
         {
