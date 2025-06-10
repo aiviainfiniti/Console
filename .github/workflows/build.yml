@@ -31,7 +31,7 @@ jobs:
 
     - name: Begin SonarCloud analysis
       run: |
-        dotnet sonarscanner begin /k:"Console" /o:"aiviainfiniti" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
+        dotnet sonarscanner begin /k:"aiviainfiniti_Console" /o:"aiviainfiniti" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
 
     - name: Build solution
       run: dotnet build Console.sln --configuration Release --no-restore
