@@ -47,11 +47,7 @@ jobs:
 
     - name: Convert coverage to SonarCloud format
       run: |
-        reportgenerator \
-          -reports:"TestResults/**/coverage.cobertura.xml" \
-          -targetdir:"CoverageReport" \
-          -reporttypes:"HtmlInline_AzurePipelines;Cobertura" \
-          -filefilters:+BlackjackHigh*
+        reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:"CoverageReport" -reporttypes:"HtmlInline_AzurePipelines;Cobertura" -filefilters:+BlackjackHigh*
 
     - name: Copy Cobertura coverage file
       run: cp TestResults/**/coverage.cobertura.xml coverage.opencover.xml
